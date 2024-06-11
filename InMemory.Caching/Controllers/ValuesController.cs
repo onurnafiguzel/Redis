@@ -28,4 +28,20 @@ public class ValuesController : ControllerBase
 		return string.Empty;
 
 	}
+
+	[HttpGet("setDate")]
+	public void SetDate()
+	{
+		memoryCache.Set<DateTime>("date", DateTime.UtcNow, options: new()
+		{
+			AbsoluteExpiration = DateTime.Now.AddSeconds(30),
+			SlidingExpiration = TimeSpan.FromSeconds(5)
+		});
+	}
+
+	[HttpGet("getDate")]
+	public DateTime GetDate()
+	{
+		return memoryCache.Get<DateTime>("date");
+	}
 }
